@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: farmfoxapp
+  cloud:
+    aws:
+      region:
+        static: ap-south-1  # Specify the AWS region
+server:
+  servlet:
+    context-path: /farmfox
+supplier:
+  info:
+    path: "{0}:{1}/configs/supplierInfo.json"
