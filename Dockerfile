@@ -5,7 +5,7 @@ FROM eclipse-temurin:17-jdk-alpine
 WORKDIR /app
 
 # Copy the Spring Boot fat JAR into the container
-ARG JAR_FILE=target/farmfoxapp-0.0.1-SNAPSHOT.jar
+ARG JAR_FILE=target/farmfox-app.jar
 COPY ${JAR_FILE} farmfoxapp.jar
 
 # Expose the port your app will run on
