@@ -17,6 +17,7 @@ class FarmfoxappApplicationTests {
 	SupplierConfig supplierConfig;
 	@Test
 	void contextLoads() {
+
 	}
 
 }
