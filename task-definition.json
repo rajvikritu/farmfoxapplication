@@ -3,7 +3,7 @@
     "containerDefinitions": [
         {
             "name": "farmfox-container",
-            "image": "236726877743.dkr.ecr.ap-south-1.amazonaws.com/farmfoxappecr@sha256:5e75797b4f71e29bdc3b29b0d030b1a93e06115a59415398e7b79b2bb33fde44",
+            "image": "IMAGE_PLACEHOLDER",
             "cpu": 0,
             "portMappings": [
                 {
