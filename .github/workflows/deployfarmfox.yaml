@@ -24,10 +24,14 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v4
 
-      # Step 2 — Set image tag from commit SHA
-      - name: Set image tag
-        id: vars
-        run: echo "IMAGE_TAG=${GITHUB_SHA}" >> $GITHUB_ENV
+      # Step 2 — Generate unique image tag (FIXED HERE)
+      - name: Generate unique image tag
+        run: |
+          SHORT_SHA=${GITHUB_SHA::7}
+          RUN_NUMBER=${GITHUB_RUN_NUMBER}
+          IMAGE_TAG=${SHORT_SHA}-${RUN_NUMBER}
+          echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
+          echo "Using image tag: $IMAGE_TAG"
 
       # Step 3 — Setup Java
       - name: Set up JDK
@@ -64,8 +68,8 @@ jobs:
           docker tag $ECR_REPOSITORY:$IMAGE_TAG \
           ${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:$IMAGE_TAG
 
-      # Step 9 — Push Docker image to ECR
-      - name: Push Docker image
+      # Step 9 — Push Docker image
+      - name: Push Docker image to ECR
         run: |
           docker push \
           ${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:$IMAGE_TAG
