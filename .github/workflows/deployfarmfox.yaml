@@ -1,4 +1,4 @@
-name: Build and Deploy to ECS
+name: Build and Deploy to ECS (Debug Enabled)
 
 on:
   push:
@@ -24,14 +24,17 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v4
 
-      # Step 2 — Generate unique image tag (FIXED HERE)
+      # Step 2 — Generate unique image tag
       - name: Generate unique image tag
         run: |
-          SHORT_SHA=${GITHUB_SHA::7}
-          RUN_NUMBER=${GITHUB_RUN_NUMBER}
-          IMAGE_TAG=${SHORT_SHA}-${RUN_NUMBER}
+          SHORT_SHA=$(echo $GITHUB_SHA | cut -c1-7)
+          IMAGE_TAG="${SHORT_SHA}-${GITHUB_RUN_NUMBER}"
           echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
-          echo "Using image tag: $IMAGE_TAG"
+          
+          echo "===== TAG DEBUG ====="
+          echo "SHORT_SHA: $SHORT_SHA"
+          echo "RUN_NUMBER: $GITHUB_RUN_NUMBER"
+          echo "IMAGE_TAG: $IMAGE_TAG"
 
       # Step 3 — Setup Java
       - name: Set up JDK
@@ -57,34 +60,54 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      # Step 7 — Build Docker image
+      # Step 7 — Debug registry and repository
+      - name: Debug registry and repository
+        run: |
+          echo "===== REGISTRY DEBUG ====="
+          echo "Registry: ${{ steps.login-ecr.outputs.registry }}"
+          echo "Repository: $ECR_REPOSITORY"
+          echo "Region: $AWS_REGION"
+
+      # Step 8 — Build Docker image
       - name: Build Docker image
         run: |
           docker build -t $ECR_REPOSITORY:$IMAGE_TAG .
 
-      # Step 8 — Tag Docker image
+      # Step 9 — Tag Docker image
       - name: Tag Docker image
         run: |
           docker tag $ECR_REPOSITORY:$IMAGE_TAG \
           ${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:$IMAGE_TAG
-          echo ${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:$IMAGE_TAG
 
-      # Step 9 — Push Docker image
-      - name: Push Docker image to ECR
+      # Step 10 — Push Docker image
+      - name: Push Docker image
         run: |
           docker push \
           ${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:$IMAGE_TAG
 
-      # Step 10 — Update task definition with new image
+      # Step 11 — Debug final image string
+      - name: Debug final image string
+        run: |
+          echo "===== IMAGE DEBUG ====="
+          echo "Final Image:"
+          echo "${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:$IMAGE_TAG"
+
+      # Step 12 — Render ECS task definition
       - name: Render ECS task definition
         id: render-task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: ${{ env.TASK_DEFINITION }}
           container-name: ${{ env.CONTAINER_NAME }}
-          image: ${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:$IMAGE_TAG
+          image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
 
-      # Step 11 — Deploy to ECS
+      # Step 13 — Print rendered task definition (IMPORTANT DEBUG)
+      - name: Show rendered task definition
+        run: |
+          echo "===== RENDERED TASK DEFINITION ====="
+          cat ${{ steps.render-task-def.outputs.task-definition }}
+
+      # Step 14 — Deploy to ECS
       - name: Deploy to ECS
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
