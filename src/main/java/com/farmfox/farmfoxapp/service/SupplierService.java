@@ -30,6 +30,7 @@ public class SupplierService {
     @PostConstruct
     public void init() throws Exception {
         String path = supplierConfig.buildPath();
+        System.out.println("path ::"+path);
         String json = factory.read(path);
         SupplierDTO supplierDTO = objectMapper.readValue(json, SupplierDTO.class);
         supplierDTOMap.put(1, supplierDTO);
