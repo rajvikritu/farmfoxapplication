@@ -20,22 +20,27 @@ jobs:
 
     steps:
 
-      # 1 — Checkout code
+      # Step 1 — Checkout code
       - name: Checkout source code
         uses: actions/checkout@v4
 
-      # 2 — Setup Java
-      - name: Set up JDK 17
+      # Step 2 — Set image tag from commit SHA
+      - name: Set image tag
+        id: vars
+        run: echo "IMAGE_TAG=${GITHUB_SHA}" >> $GITHUB_ENV
+
+      # Step 3 — Setup Java
+      - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
 
-      # 3 — Build Spring Boot
+      # Step 4 — Build Spring Boot
       - name: Build application
         run: mvn clean package -DskipTests
 
-      # 4 — Configure AWS credentials
+      # Step 5 — Configure AWS credentials
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -43,39 +48,39 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-      # 5 — Login to Amazon ECR
+      # Step 6 — Login to Amazon ECR
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      # 6 — Build Docker image
+      # Step 7 — Build Docker image
       - name: Build Docker image
         run: |
-          docker build -t $ECR_REPOSITORY .
+          docker build -t $ECR_REPOSITORY:$IMAGE_TAG .
 
-      # 7 — Tag Docker image
+      # Step 8 — Tag Docker image
       - name: Tag Docker image
         run: |
-          docker tag $ECR_REPOSITORY:latest \
-          ${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:latest
+          docker tag $ECR_REPOSITORY:$IMAGE_TAG \
+          ${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:$IMAGE_TAG
 
-      # 8 — Push image to ECR
-      - name: Push Docker image to ECR
+      # Step 9 — Push Docker image to ECR
+      - name: Push Docker image
         run: |
           docker push \
-          ${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:latest
+          ${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:$IMAGE_TAG
 
-      # 9 — Update ECS task definition with new image
-      - name: Render Amazon ECS task definition
+      # Step 10 — Update task definition with new image
+      - name: Render ECS task definition
         id: render-task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: ${{ env.TASK_DEFINITION }}
           container-name: ${{ env.CONTAINER_NAME }}
-          image: ${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:latest
+          image: ${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:$IMAGE_TAG
 
-      # 10 — Deploy to ECS
-      - name: Deploy to Amazon ECS
+      # Step 11 — Deploy to ECS
+      - name: Deploy to ECS
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           task-definition: ${{ steps.render-task-def.outputs.task-definition }}
