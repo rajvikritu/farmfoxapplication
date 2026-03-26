@@ -2,7 +2,7 @@ supplier:
   info:
     protocol: s3
     bucketname: farmfox-stg-bucket
-    path: "{0}://{1}/configs/supplierInfo.json"
+    path: "{0}://{1}/configs/supplierInfo.yaml"
 spring:
   config:
     import: aws-parameterstore:/farmfox-${spring.profiles.active}/

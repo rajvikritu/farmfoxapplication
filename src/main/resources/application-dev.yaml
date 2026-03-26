@@ -2,4 +2,4 @@ supplier:
   info:
     protocol: file
     bucketname: C:/Users/Aditya Prakash
-    path: "{0}:{1}/configs/supplierInfo.json"
+    path: "{0}:{1}/configs/supplierInfo.yaml"

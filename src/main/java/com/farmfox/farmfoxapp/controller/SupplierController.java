@@ -1,7 +1,10 @@
 package com.farmfox.farmfoxapp.controller;
 
+import com.farmfox.farmfoxapp.entity.ConfigDTO;
+import com.farmfox.farmfoxapp.entity.LotResponseDTO;
 import com.farmfox.farmfoxapp.entity.SupplierDTO;
 import com.farmfox.farmfoxapp.service.SupplierService;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,8 +22,8 @@ public class SupplierController {
     }
 
     @GetMapping("/supplier")
-    public ResponseEntity<SupplierDTO> getSupplierDetails() {
-        SupplierDTO supplierDTO = supplierService.fetchSupplierDetails();
-        return ResponseEntity.status(HttpStatus.OK).body(supplierDTO);
+    public ResponseEntity<LotResponseDTO> getSupplierDetails() {
+        LotResponseDTO configDTO = supplierService.fetchSupplierDetails();
+        return ResponseEntity.status(HttpStatus.OK).body(configDTO);
     }
 }

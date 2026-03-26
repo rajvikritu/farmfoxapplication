@@ -10,4 +10,4 @@ server:
     context-path: /farmfox
 supplier:
   info:
-    path: "{0}:{1}/configs/supplierInfo.json"
+    path: "{0}:{1}/configs/supplierInfo.yaml"
