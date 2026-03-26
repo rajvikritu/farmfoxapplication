@@ -11,3 +11,11 @@ server:
 supplier:
   info:
     path: "{0}:{1}/configs/supplierInfo.yaml"
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: always
