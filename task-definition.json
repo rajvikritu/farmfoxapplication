@@ -5,6 +5,12 @@
             "name": "farmfox-container",
             "image": "IMAGE_PLACEHOLDER",
             "cpu": 0,
+            "environment": [
+                {
+                    "name": "SPRING_PROFILES_ACTIVE",
+                    "value": "stg"
+                }
+            ],
             "portMappings": [
                 {
                     "name": "farmfox-container-80-tcp",
