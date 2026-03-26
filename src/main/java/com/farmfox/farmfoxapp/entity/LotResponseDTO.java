@@ -8,4 +8,7 @@ public class LotResponseDTO {
     private String companyAddress;
     private String lotNo;
     private String mfgDate;
+    private String manufacturerAddress;
+    private String manufacturedBy;
+    private String fssaiLicenseNo;
 }

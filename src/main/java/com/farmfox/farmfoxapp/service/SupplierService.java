@@ -43,6 +43,9 @@ public class SupplierService {
         lotResponseDTO.setCompanyName(configDTO.getLotDetails().getCompanyName());
         lotResponseDTO.setLotNo(String.valueOf(configDTO.getLotDetails().getLots().get("LOT001").getLotNo()));
         lotResponseDTO.setMfgDate(String.valueOf(configDTO.getLotDetails().getLots().get("LOT001").getMfgDate()));
+        lotResponseDTO.setManufacturerAddress(configDTO.getLotDetails().getLots().get("LOT001").getManufacturerAddress());
+        lotResponseDTO.setManufacturedBy(configDTO.getLotDetails().getLots().get("LOT001").getMaufacturedBy());
+        lotResponseDTO.setFssaiLicenseNo(configDTO.getLotDetails().getLots().get("LOT001").getFssaiLicenseNo());
         return lotResponseDTO;
     }
 }
