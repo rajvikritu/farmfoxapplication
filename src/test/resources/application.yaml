@@ -8,6 +8,7 @@ spring:
 server:
   servlet:
     context-path: /farmfox
+  port: 8080
 supplier:
   info:
     path: "{0}:{1}/configs/supplierInfo.yaml"
