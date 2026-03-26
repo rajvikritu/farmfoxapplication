@@ -30,7 +30,7 @@ public class SupplierService {
     public void init() throws Exception {
         ObjectMapper objMapper = new ObjectMapper(new YAMLFactory());
         String path = supplierConfig.buildPath();
-        System.out.println("path :: "+path);
+        System.out.println("path ::: "+path);
         String json = factory.read(path);
         ConfigDTO configDTO = objMapper.readValue(json, ConfigDTO.class);
         configDTOMap.put(1, configDTO);
