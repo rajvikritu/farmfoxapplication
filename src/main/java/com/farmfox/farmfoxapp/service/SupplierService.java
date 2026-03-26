@@ -30,7 +30,7 @@ public class SupplierService {
     public void init() throws Exception {
         ObjectMapper objMapper = new ObjectMapper(new YAMLFactory());
         String path = supplierConfig.buildPath();
-        System.out.println("path ::: "+path);
+        System.out.println("path :::: "+path);
         String json = factory.read(path);
         ConfigDTO configDTO = objMapper.readValue(json, ConfigDTO.class);
         configDTOMap.put(1, configDTO);
@@ -46,6 +46,7 @@ public class SupplierService {
         lotResponseDTO.setManufacturerAddress(configDTO.getLotDetails().getLots().get("LOT001").getManufacturerAddress());
         lotResponseDTO.setManufacturedBy(configDTO.getLotDetails().getLots().get("LOT001").getMaufacturedBy());
         lotResponseDTO.setFssaiLicenseNo(configDTO.getLotDetails().getLots().get("LOT001").getFssaiLicenseNo());
+        System.out.println("completing lot response dto");
         return lotResponseDTO;
     }
 }
