@@ -32,6 +32,9 @@ public class SupplierDTO {
                     map.get("lotNo")
                             .toString()
             );
+            dto.setManufacturerAddress(map.get("manufacturerAddress").toString());
+            dto.setFssaiLicenseNo(map.get("fssaiLicenseNo").toString());
+            dto.setMaufacturedBy(map.get("maufacturedBy").toString());
             lots.put(key, dto);
         }
     }
