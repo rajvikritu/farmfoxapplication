@@ -2,6 +2,7 @@ package com.farmfox.farmfoxapp.service;
 
 import com.farmfox.farmfoxapp.configuration.SupplierConfig;
 import com.farmfox.farmfoxapp.entity.ConfigDTO;
+import com.farmfox.farmfoxapp.entity.LotDetailsDTO;
 import com.farmfox.farmfoxapp.entity.LotResponseDTO;
 import com.farmfox.farmfoxapp.entity.SupplierDTO;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -36,17 +37,25 @@ public class SupplierService {
         configDTOMap.put(1, configDTO);
     }
 
-    public LotResponseDTO fetchSupplierDetails() {
-        ConfigDTO configDTO =  configDTOMap.getOrDefault(1, new ConfigDTO());
+    public LotResponseDTO fetchSupplierDetails(String lotNo) {
         LotResponseDTO lotResponseDTO = new LotResponseDTO();
-        lotResponseDTO.setCompanyAddress(configDTO.getLotDetails().getCompanyAddress());
-        lotResponseDTO.setCompanyName(configDTO.getLotDetails().getCompanyName());
-        lotResponseDTO.setLotNo(String.valueOf(configDTO.getLotDetails().getLots().get("LOT001").getLotNo()));
-        lotResponseDTO.setMfgDate(String.valueOf(configDTO.getLotDetails().getLots().get("LOT001").getMfgDate()));
-        lotResponseDTO.setManufacturerAddress(configDTO.getLotDetails().getLots().get("LOT001").getManufacturerAddress());
-        lotResponseDTO.setManufacturedBy(configDTO.getLotDetails().getLots().get("LOT001").getMaufacturedBy());
-        lotResponseDTO.setFssaiLicenseNo(configDTO.getLotDetails().getLots().get("LOT001").getFssaiLicenseNo());
-        System.out.println("completing lot response dto");
+        try {
+            ConfigDTO configDTO = configDTOMap.getOrDefault(1, new ConfigDTO());
+            LotDetailsDTO lotDto = new LotDetailsDTO();
+            lotResponseDTO.setCompanyAddress(configDTO.getLotDetails().getCompanyAddress());
+            lotResponseDTO.setCompanyName(configDTO.getLotDetails().getCompanyName());
+            lotResponseDTO.setLotNo(String.valueOf(configDTO.getLotDetails().getLots().getOrDefault(lotNo,lotDto).getLotNo()));
+            lotResponseDTO.setMfgDate(String.valueOf(configDTO.getLotDetails().getLots().getOrDefault(lotNo,lotDto).getMfgDate()));
+            lotResponseDTO.setManufacturerAddress(configDTO.getLotDetails().getLots().getOrDefault(lotNo,lotDto).getManufacturerAddress());
+            lotResponseDTO.setManufacturedBy(configDTO.getLotDetails().getLots().getOrDefault(lotNo,lotDto).getMaufacturedBy());
+            lotResponseDTO.setFssaiLicenseNo(configDTO.getLotDetails().getLots().getOrDefault(lotNo,lotDto).getFssaiLicenseNo());
+            System.out.println("completing lot response dto");
+        }
+        catch (Exception e)
+        {
+            System.out.println("exception coming:::"+e);
+            return new LotResponseDTO();
+        }
         return lotResponseDTO;
     }
 }
