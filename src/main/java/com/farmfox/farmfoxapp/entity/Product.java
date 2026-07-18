@@ -1,21 +1,32 @@
 package com.farmfox.farmfoxapp.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Getter
+@Setter
 public class Product {
     private Long id;
     private String name;
     private String weight;
-    private Integer price;
-    private Integer originalPrice;
-    private Integer saveAmount;
+    private Double price;
+    private Double originalPrice;
+    private Double saveAmount;
     private Boolean soldOut;
     private String imageUrl;
 
+    public Product()
+    {
+        log.info("inside product constructor");
+    }
     public Product(Long id,
                    String name,
                    String weight,
-                   Integer price,
-                   Integer originalPrice,
-                   Integer saveAmount,
+                   Double price,
+                   Double originalPrice,
+                   Double saveAmount,
                    Boolean soldOut,
                    String imageUrl) {
         this.id = id;
@@ -26,38 +37,6 @@ public class Product {
         this.saveAmount = saveAmount;
         this.soldOut = soldOut;
         this.imageUrl = imageUrl;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getWeight() {
-        return weight;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public Integer getOriginalPrice() {
-        return originalPrice;
-    }
-
-    public Integer getSaveAmount() {
-        return saveAmount;
-    }
-
-    public Boolean getSoldOut() {
-        return soldOut;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
     }
 }
 
