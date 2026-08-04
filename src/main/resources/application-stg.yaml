@@ -8,7 +8,7 @@ spring:
     import: aws-parameterstore:/farmfox-${spring.profiles.active}/
 farmfox:
   data:
-    bestSellerPath: "farmfoxdata/bestseller.json"
+    bestSellerPath: "farmfoxdata/bestSeller.json"
     valueComboProductpath: "farmfoxdata/valueComboProducts.json"
     recommendedProductPath: "farmfoxdata/recommendedProducts.json"
     videoBannerPath: "farmfoxdata/videoBanner.json"
