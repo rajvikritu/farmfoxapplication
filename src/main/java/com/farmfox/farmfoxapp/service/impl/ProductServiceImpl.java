@@ -44,6 +44,7 @@ import java.util.Optional;
         }
 
     private void populateRecommendedProducts() {
+        System.out.println("populating products::" + supplierConfig.getBucketName() + ":::" + supplierConfig.getProtocol() + ":::" + farmFoxDataConfig.getRecommendedProductPath());
         recommendedProducts = jsonFileReader.readJson(
                 supplierConfig.getBucketName(),
                 supplierConfig.getProtocol() ,
@@ -53,6 +54,7 @@ import java.util.Optional;
     }
 
     private void populateProducts() {
+        System.out.println("populating products::" + supplierConfig.getBucketName() + ":::" + supplierConfig.getProtocol() + ":::" + farmFoxDataConfig.getProductDetailsPath());
         products = jsonFileReader.readJson(
                 supplierConfig.getBucketName(),
                 supplierConfig.getProtocol() ,
@@ -62,6 +64,7 @@ import java.util.Optional;
     }
 
     private void populateValueComboProducts() {
+        System.out.println("populating products::" + supplierConfig.getBucketName() + ":::" + supplierConfig.getProtocol() + ":::" + farmFoxDataConfig.getValueComboProductpath());
         valueCombos = jsonFileReader.readJson(
                 supplierConfig.getBucketName(),
                 supplierConfig.getProtocol() ,
