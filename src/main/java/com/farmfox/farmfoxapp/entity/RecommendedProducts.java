@@ -17,4 +17,5 @@ public class RecommendedProducts {
     private Integer reviewCount;
     private Boolean soldOut;
     private Boolean trending;
+    private String batchId;
 }

@@ -6,3 +6,17 @@ supplier:
 spring:
   config:
     import: aws-parameterstore:/farmfox-${spring.profiles.active}/
+farmfox:
+  data:
+    bestsellerpath: "farmfoxdata/bestseller.json"
+    valueComboProductpath: "farmfoxdata/valueComboProducts.json"
+    recommendedProductPath: "farmfoxdata/recommendedProducts.json"
+    videoBannerPath: "farmfoxdata/videoBanner.json"
+    collectionDetailsPath: "farmfoxdata/collectionDetails.json"
+    promoVideoDetailsPath: "farmfoxdata/promoVideoDetails.json"
+    brandPromiseDetaisPath: "farmfoxdata/brandPromise.json"
+    blogsDetailsPath: "farmfoxdata/blogsDetails.json"
+    faqsDetailsPath: "farmfoxdata/faqsDetails.json"
+    seoContentDetailsPath: "farmfoxdata/seoContent.json"
+    mediaTalksDetailsPath: "farmfoxdata/mediaTalks.json"
+    productDetailsPath: "farmfoxdata/products.json"

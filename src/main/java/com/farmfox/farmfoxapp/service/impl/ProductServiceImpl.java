@@ -1,75 +1,93 @@
 package com.farmfox.farmfoxapp.service.impl;
 
+import com.farmfox.farmfoxapp.configuration.FarmFoxDataConfig;
+import com.farmfox.farmfoxapp.configuration.SupplierConfig;
+import com.farmfox.farmfoxapp.design.JSONFileReader;
+import com.farmfox.farmfoxapp.design.impl.LocalFileReader;
+import com.farmfox.farmfoxapp.design.impl.S3FileReader;
+import com.farmfox.farmfoxapp.entity.BestSellerProduct;
 import com.farmfox.farmfoxapp.entity.Product;
 import com.farmfox.farmfoxapp.entity.RecommendedProducts;
 import com.farmfox.farmfoxapp.entity.ValueCombo;
 import com.farmfox.farmfoxapp.service.ProductService;
+import com.fasterxml.jackson.core.type.TypeReference;
+import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
     public class ProductServiceImpl implements ProductService {
 
-        @Override
+    private final FarmFoxDataConfig farmFoxDataConfig;
+    private final SupplierConfig supplierConfig;
+    private final JSONFileReader jsonFileReader;
+
+    List<Product> products = new ArrayList<>();
+    List<ValueCombo> valueCombos = new ArrayList<>();
+    List<RecommendedProducts> recommendedProducts = new ArrayList<>();
+
+    public ProductServiceImpl(FarmFoxDataConfig farmFoxDataConfig, SupplierConfig supplierConfig,JSONFileReader jsonFileReader) {
+        this.farmFoxDataConfig = farmFoxDataConfig;
+        this.supplierConfig = supplierConfig;
+        this.jsonFileReader = jsonFileReader;
+    }
+
+    @PostConstruct
+        void init()
+        {
+            populateProducts();
+            populateValueComboProducts();
+            populateRecommendedProducts();
+        }
+
+    private void populateRecommendedProducts() {
+        recommendedProducts = jsonFileReader.readJson(
+                supplierConfig.getBucketName(),
+                supplierConfig.getProtocol() ,
+                farmFoxDataConfig.getRecommendedProductPath(),
+                new TypeReference<List<RecommendedProducts>>() {}
+        );
+    }
+
+    private void populateProducts() {
+        products = jsonFileReader.readJson(
+                supplierConfig.getBucketName(),
+                supplierConfig.getProtocol() ,
+                farmFoxDataConfig.getProductDetailsPath(),
+                new TypeReference<List<Product>>() {}
+        );
+    }
+
+    private void populateValueComboProducts() {
+        valueCombos = jsonFileReader.readJson(
+                supplierConfig.getBucketName(),
+                supplierConfig.getProtocol() ,
+                farmFoxDataConfig.getValueComboProductpath(),
+                new TypeReference<List<ValueCombo>>() {}
+        );
+    }
+
+    @Override
         public Optional<Product> getProductById(Long id) {
 
-            return Optional.of(new Product(
-                    1L,
-                    "FarmFox Premium Almonds",
-                    "500g",
-                    599.00,
-                    699.00,
-                    100.00,
-                    false,
-                    "https://cdn.farmfox.com/products/almond.jpg"
-            ));
+            return products.stream().filter(p -> p.getId().equals(id)).findFirst();
         }
 
     @Override
     public List<Product> getAllProduct() {
-        return List.of(new Product(
-                1L,
-                "FarmFox Premium Almonds",
-                "500g",
-                599.00,
-                699.00,
-                100.00,
-                false,
-                "https://cdn.farmfox.com/products/almond.jpg"
-        ));
+        return products;
     }
 
     @Override
     public List<ValueCombo> getValueCombo() {
-        return List.of(new ValueCombo(
-                1L,
-                "Premium Nuts & Dry Fruits Combo",
-                "https://cdn.farmfox.com/combo1.png",
-                761.0,
-                895.0,
-                "1.3",
-                5.0,
-                5,
-                true,
-                true
-        ));
+        return valueCombos;
     }
 
+    @Override
     public List<RecommendedProducts> getRecommendedProducts() {
-        return List.of(
-                new RecommendedProducts(
-                        1,
-                        "FarmFox Premium Dried Blueberry & Cranberry Mix",
-                        "https://cdn.farmfox.com/products/cranberry.jpg",
-                        302,
-                        355,
-                        4.8,
-                        4,
-                        true,
-                        false
-                )
-        );
+        return recommendedProducts;
     }
 }

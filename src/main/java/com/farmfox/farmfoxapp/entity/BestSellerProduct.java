@@ -19,4 +19,6 @@ public class BestSellerProduct {
 
     private Double rating;
     private Integer reviewCount;
+
+    private String batchId;
 }

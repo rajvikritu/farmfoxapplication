@@ -116,20 +116,15 @@ public class MediaController {
     }
 
     @GetMapping("/media-talks")
-    public List<MediaTalk> getMediaTalks() {
-        return List.of(
-                MediaTalk.builder()
-                        .id(1)
-                        .title("FarmFox Festive Special")
-                        .imageUrl("https://cdn.farmfox.com/media/media1.jpg")
-                        .articleUrl("https://example.com/article1")
-                        .build(),
-                MediaTalk.builder()
-                        .id(2)
-                        .title("Health Benefits of Pumpkin")
-                        .imageUrl("https://cdn.farmfox.com/media/media2.jpg")
-                        .articleUrl("https://example.com/article2")
-                        .build()
-        );
+    public ResponseEntity<ApiResponse<List<MediaTalk>>> getMediaTalks() {
+        List<MediaTalk> mediaTalks = mediaService.getMediaTalks();
+        ApiResponse<List<MediaTalk>> response =
+                new ApiResponse<>(
+                        "SUCCESS",
+                        "media talks fetched successfully",
+                        mediaTalks
+                );
+
+        return ResponseEntity.ok(response);
     }
 }
