@@ -9,12 +9,14 @@ import com.farmfox.farmfoxapp.entity.BestSellerProduct;
 import com.farmfox.farmfoxapp.service.BestSellerService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class BestSellerServiceImpl implements BestSellerService {
 
     private final FarmFoxDataConfig farmFoxDataConfig;
@@ -31,6 +33,7 @@ public class BestSellerServiceImpl implements BestSellerService {
     @PostConstruct
     void init()
     {
+        log.info("bucket , protocol"+supplierConfig.getBucketName()+"::"+supplierConfig.getProtocol()+"::"+farmFoxDataConfig.getBestsellerpath());
         bestSellerProducts = jsonFileReader.readJson(
                 supplierConfig.getBucketName(),
                 supplierConfig.getProtocol() ,
