@@ -12,12 +12,14 @@ import com.farmfox.farmfoxapp.entity.ValueCombo;
 import com.farmfox.farmfoxapp.service.ProductService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
     public class ProductServiceImpl implements ProductService {
 
@@ -44,7 +46,7 @@ import java.util.Optional;
         }
 
     private void populateRecommendedProducts() {
-        System.out.println("populating products::" + supplierConfig.getBucketName() + ":::" + supplierConfig.getProtocol() + ":::" + farmFoxDataConfig.getRecommendedProductPath());
+        log.info("populating products::" + supplierConfig.getBucketName() + ":::" + supplierConfig.getProtocol() + ":::" + farmFoxDataConfig.getRecommendedProductPath());
         recommendedProducts = jsonFileReader.readJson(
                 supplierConfig.getBucketName(),
                 supplierConfig.getProtocol() ,
