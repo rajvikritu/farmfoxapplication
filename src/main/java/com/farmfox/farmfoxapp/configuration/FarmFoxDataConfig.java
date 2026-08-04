@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "farmfox.data")
 @Data
 public class FarmFoxDataConfig {
-    private String bestsellerpath;
+    private String bestSellerPath;
     private String valueComboProductpath;
     private String recommendedProductPath;
     private String videoBannerPath;

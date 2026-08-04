@@ -33,11 +33,11 @@ public class BestSellerServiceImpl implements BestSellerService {
     @PostConstruct
     void init()
     {
-        log.info("bucket , protocol"+supplierConfig.getBucketName()+"::"+supplierConfig.getProtocol()+"::"+farmFoxDataConfig.getBestsellerpath());
+        log.info("bucket:::::protocol"+supplierConfig.getBucketName()+"::"+supplierConfig.getProtocol()+"::"+farmFoxDataConfig.getBestSellerPath());
         bestSellerProducts = jsonFileReader.readJson(
                 supplierConfig.getBucketName(),
                 supplierConfig.getProtocol() ,
-                farmFoxDataConfig.getBestsellerpath(),
+                farmFoxDataConfig.getBestSellerPath(),
                 new TypeReference<List<BestSellerProduct>>() {}
         );
     }

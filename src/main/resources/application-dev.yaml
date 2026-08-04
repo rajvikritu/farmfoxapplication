@@ -5,7 +5,7 @@ supplier:
     path: "{0}:{1}/configs/supplierInfo.yaml"
 farmfox:
   data:
-    bestsellerpath: "C:/Users/Aditya Prakash/configs/bestseller.json"
+    bestSellerPath: "C:/Users/Aditya Prakash/configs/bestseller.json"
     valueComboProductpath: "C:/Users/Aditya Prakash/configs/valueComboProducts.json"
     recommendedProductPath: "C:/Users/Aditya Prakash/configs/recommendedProducts.json"
     videoBannerPath: "C:/Users/Aditya Prakash/configs/videoBanner.json"
