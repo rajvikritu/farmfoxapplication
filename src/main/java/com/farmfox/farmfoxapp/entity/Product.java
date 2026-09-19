@@ -17,5 +17,6 @@ public class Product {
     private Double saveAmount;
     private Boolean soldOut;
     private String imageUrl;
+    private String amazonLink;
 }
 

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface MediaService {
     VideoBanner getVideoBannerDetails();
-    CollectionBannerDetail getCollectionDetail();
+    List<CollectionBannerDetail> getCollectionDetail();
     PromoVideo getPromoVideo();
     BrandPromiseBanner getBrandPromiseBanner();
     List<Blog> getBlogs();

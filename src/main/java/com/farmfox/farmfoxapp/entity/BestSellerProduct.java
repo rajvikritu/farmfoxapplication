@@ -21,4 +21,5 @@ public class BestSellerProduct {
     private Integer reviewCount;
 
     private String batchId;
+    private String amazonLink;
 }

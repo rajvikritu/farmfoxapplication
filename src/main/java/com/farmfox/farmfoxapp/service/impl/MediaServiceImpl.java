@@ -27,7 +27,7 @@ public class MediaServiceImpl implements MediaService {
         this.jsonFileReader = jsonFileReader;
     }
     VideoBanner videoBanner = new VideoBanner();
-    CollectionBannerDetail collectionBannerDetail = new CollectionBannerDetail();
+    List<CollectionBannerDetail> collectionBannerDetail = new ArrayList<>();
     PromoVideo promoVideo = new PromoVideo();
     BrandPromiseBanner brandPromiseBanner = new BrandPromiseBanner();
     List<Blog> blogs = new ArrayList<>();
@@ -61,7 +61,7 @@ public class MediaServiceImpl implements MediaService {
                 supplierConfig.getBucketName(),
                 supplierConfig.getProtocol() ,
                 farmFoxDataConfig.getCollectionDetailsPath(),
-                new TypeReference<CollectionBannerDetail>() {}
+                new TypeReference<List<CollectionBannerDetail>>() {}
         );
     }
     private void populatePromoVideoDetails() {
@@ -124,7 +124,7 @@ public class MediaServiceImpl implements MediaService {
     }
 
     @Override
-    public CollectionBannerDetail getCollectionDetail() {
+    public List<CollectionBannerDetail> getCollectionDetail() {
         return collectionBannerDetail;
     }
 

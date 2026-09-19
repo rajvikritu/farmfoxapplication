@@ -34,10 +34,10 @@ public class MediaController {
     }
 
     @GetMapping("/collection-banner")
-    public ResponseEntity<ApiResponse<CollectionBannerDetail>> getCollectionBannerDetails() {
-        CollectionBannerDetail collectionBannerDetail =  mediaService.getCollectionDetail();
-        ApiResponse<CollectionBannerDetail> response =
-                new ApiResponse<CollectionBannerDetail>(
+    public ResponseEntity<ApiResponse<List<CollectionBannerDetail>>> getCollectionBannerDetails() {
+        List<CollectionBannerDetail> collectionBannerDetail =  mediaService.getCollectionDetail();
+        ApiResponse<List<CollectionBannerDetail>> response =
+                new ApiResponse<List<CollectionBannerDetail>>(
                         "SUCCESS",
                         "collection banner fetched successfully",
                         collectionBannerDetail
